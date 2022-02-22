@@ -34,25 +34,25 @@
 ;end interrupts
 
 Reset:
-;Инициализация стека
+;РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚РµРєР°
 	LDI 	R16,Low(RAMEND)	
 	OUT 	SPL,R16			
 	LDI 	R16,High(RAMEND)
 	OUT 	SPH,R16
 ;---
-;Настройка ADC
+;РќР°СЃС‚СЂРѕР№РєР° ADC
 	LDS		R16, ADMUX
-	ORI		R16, 1 << REFS0 ; Выставляю AVCC with external capacitor at AREF pin. Также 0 канал.  ????? 0 или 1???? что лучше
+	ORI		R16, 1 << REFS0 ; Р’С‹СЃС‚Р°РІР»СЏСЋ AVCC with external capacitor at AREF pin. РўР°РєР¶Рµ 0 РєР°РЅР°Р».  ????? 0 РёР»Рё 1???? С‡С‚Рѕ Р»СѓС‡С€Рµ
 	STS		ADMUX, R16
 	LDS		R16, ADCSRA
-	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; включаю и настраиваю
+	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; РІРєР»СЋС‡Р°СЋ Рё РЅР°СЃС‚СЂР°РёРІР°СЋ
 	STS		ADCSRA, R16
 ;---
 ;portd
 	LDI R16, 0xFF
 	OUT	DDRD, R16
 ;---
-;Настройка таймера0
+;РќР°СЃС‚СЂРѕР№РєР° С‚Р°Р№РјРµСЂР°0
 	LDI	temp, 5			; set the Clock Selector Bits CS00, CS01, CS02 to 101
 	OUT	TCCR0B, temp		; this puts Timer Counter0, TCNT0 in to FCPU/1024 mode
 					; so it ticks at the CPU freq/1024
@@ -77,15 +77,15 @@ Main:
 	MOV x0, R20
 	;start adc
 	LDS		R16, ADMUX
-	ORI		R16, 1 << REFS0 | 0 << ADLAR | 1 << MUX2; выставляю AVCC with external capacitor at AREF pin. Также 4 канал.
+	ORI		R16, 1 << REFS0 | 0 << ADLAR | 1 << MUX2; РІС‹СЃС‚Р°РІР»СЏСЋ AVCC with external capacitor at AREF pin. РўР°РєР¶Рµ 4 РєР°РЅР°Р».
 	STS		ADMUX, R16
 	LDS		R16, ADCSRA
-	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; включаю и настраиваю
+	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; РІРєР»СЋС‡Р°СЋ Рё РЅР°СЃС‚СЂР°РёРІР°СЋ
 	STS		ADCSRA, R16
 	
 	MOV y4, R20
 	;LDI R25, 'G'
-	;вариант3
+	;РІР°СЂРёР°РЅС‚3
 	
 	;x*y
 	MOV res, x0
@@ -107,10 +107,10 @@ Main:
 	;RCALL newline
 	;start adc
 	LDS		R16, ADMUX
-	ORI		R16, 1 << REFS0 | 0 << ADLAR; выставляю AVCC with external capacitor at AREF pin. Также 0 канал.
+	ORI		R16, 1 << REFS0 | 0 << ADLAR; РІС‹СЃС‚Р°РІР»СЏСЋ AVCC with external capacitor at AREF pin. РўР°РєР¶Рµ 0 РєР°РЅР°Р».
 	STS		ADMUX, R16
 	LDS		R16, ADCSRA
-	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; включаю и настраиваю
+	ORI		R16, 1 << ADEN | 1 << ADSC | 1 << ADIF | 1 << ADIE | 1 << ADPS2 | 1 << ADPS1 ; РІРєР»СЋС‡Р°СЋ Рё РЅР°СЃС‚СЂР°РёРІР°СЋ
 	STS		ADCSRA, R16
 	
 	RCALL	delay
